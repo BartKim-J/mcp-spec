@@ -3,7 +3,10 @@ name: Update latest tag on master push
 on:
   push:
     branches:
-      - master  # 또는 main
+      - master
+
+permissions:
+  contents: write
 
 jobs:
   update-latest:
