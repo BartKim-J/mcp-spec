@@ -8,7 +8,7 @@ servers:
 paths:
   /{width}/{height}:
     get:
-      operationId: getRandomImageABCD
+      operationId: getRandomImage
       tags:
         - image
       summary: "무작위 이미지 가져오기"
