@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: "Lorem Picsum 이미지 API test"
+  title: "Lorem Picsum 이미지 API"
   description: "무작위 또는 특정 ID의 플레이스홀더 이미지를 제공하는 무료 이미지 API입니다."
   version: "1.0.0"
 servers:
