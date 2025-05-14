@@ -1,0 +1,25 @@
+name: Update latest tag on master push
+
+on:
+  push:
+    branches:
+      - master  # 또는 main
+
+jobs:
+  update-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 태그 조작을 위해 전체 히스토리 가져옴
+
+      - name: Delete existing 'latest' tag locally and remotely
+        run: |
+          git tag -d latest || true
+          git push origin :refs/tags/latest || true
+
+      - name: Create new 'latest' tag and push
+        run: |
+          git tag latest
+          git push origin latest
