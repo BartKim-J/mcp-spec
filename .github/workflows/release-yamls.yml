@@ -1,0 +1,50 @@
+name: Release YAML Files
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write  # ✅ release 작성에 필요
+
+jobs:
+  release-yaml:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 태그/릴리즈 조작을 위해 전체 clone
+
+      - name: Set Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Delete and recreate 'latest' tag
+        run: |
+          git tag -d latest || true
+          git push origin :refs/tags/latest || true
+          git tag latest
+          git push origin latest
+
+      - name: Create release and upload all .yaml files
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: Latest YAML Spec Release
+          body: |
+            자동 릴리즈입니다. 모든 .yaml 파일이 포함됩니다.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload all .yaml files to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          files: |
+            *.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
